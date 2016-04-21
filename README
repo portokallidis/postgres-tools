@@ -1,0 +1,28 @@
+
+
+# etc/postgresql/9.5/main/
+PG_CONFIG_FOLDER=$(ps auxw|grep postgres|grep -oP 'config_file=\K.*/') 
+
+# login as postgres and set your password
+sudo -u postgres psql postgres
+\password postgres
+
+# create mydb
+sudo -u postgres createdb mydb
+
+sudo -u postgres psql < "CREATE EXTENSION adminpack"
+
+
+# pg_hba.conf
+
+# Database administrative login by Unix domain socket
+local   all             postgres                                peer
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             all                   md5
